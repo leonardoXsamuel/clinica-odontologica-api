@@ -18,8 +18,8 @@ O sistema gerencia pacientes, dentistas, serviços e agendamentos.
 - Validações de dados (como horários e status de agendamentos)
 - Relacionamentos entre entidades com JPA
 
-## Banco de Dados
-# Tabelas:
+# Banco de Dados
+## Tabelas:
 - tb_pacientes
 - tb_dentistas
 - tb_servicos
