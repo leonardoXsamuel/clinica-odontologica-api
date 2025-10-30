@@ -25,29 +25,5 @@ O sistema gerencia pacientes, dentistas, serviços e agendamentos.
 - tb_servicos
 - tb_agendamentos
 
-## Imagens do Projeto
-- Log Spring Boot:
-![Log intellij - Spring Boot](imagens/video_log_clinica_odont.gif)
-
-- Estrutura do Projeto:
-![Estrutura do Projeto](imagens/estrutura.png)
-
-- Todas as requisições HTTP no Postman:
-![Todas as requisições HTTP no Postman ](imagens/postman_requisicoesPT1.png)
-![Todas as requisições HTTP no Postman ](imagens/postman_requisicoesPT2.png)
-
-- Alguns testes no Postman:
-![Teste no Postman (GET)](imagens/postmanGET.png)
-![Teste no Postman (POST)](imagens/postmanPOST.png)
-![Teste no Postman (DELETE)](imagens/postmanDELETE.png)
-![Teste no Postman (PUT)](imagens/postmanPUT.png)
-
-- Diagrama das tabelas:
-![Diagrama das tabelas](imagens/diagramas.png)
-
-- Dados persistindo no MySQL:
-![Dados persistindo no MySQL](imagens/BP_tb_pacientes.png)
-![Dados persistindo no MySQL](imagens/BP_tb_servicos.png)
-![Dados persistindo no MySQL](imagens/BP_tb_agendamentos.png)
-![Dados persistindo no MySQL](imagens/BP_tb_dentistas.png)
-
+#Linkedin
+Link Post:
