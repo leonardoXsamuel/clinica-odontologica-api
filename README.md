@@ -27,8 +27,7 @@ O sistema gerencia pacientes, dentistas, serviços e agendamentos.
 
 ## Imagens do Projeto
 - Log Spring Boot:
-
-![Log intellij - Spring Boot](imagens/video_log_clinica_odont.mp4)
+![Log intellij - Spring Boot](imagens/video_log_clinica_odont.gif)
 
 - Estrutura do Projeto:
 ![Estrutura do Projeto](imagens/estrutura.png)
