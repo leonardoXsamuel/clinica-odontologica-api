@@ -26,4 +26,4 @@ O sistema gerencia pacientes, dentistas, serviços e agendamentos.
 - tb_agendamentos
 
 # Linkedin
-Link Post:
+Link Post: https://l1nk.dev/E7bKV
