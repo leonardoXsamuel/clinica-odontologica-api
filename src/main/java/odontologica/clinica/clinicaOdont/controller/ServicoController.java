@@ -48,28 +48,33 @@ public class ServicoController {
     }
 
     @PostMapping("/lote")
-    public List<ServicoResponseDTO> createServicos(@RequestBody List<ServicoCreateDTO> servicoList){
-        return servicoService.createServicos(servicoList);
+    public ResponseEntity<List<ServicoResponseDTO>> createServicos(@RequestBody List<ServicoCreateDTO> servicoList){
+        List<ServicoResponseDTO> dtoList =  servicoService.createServicos(servicoList);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoList);
     }
 
     @PutMapping("/{id}")
-    public Servico updateServicoById(@PathVariable Long id, @RequestBody ServicoUpdateDTO novoServicoDTO) {
-        return servicoService.updateServicoById(id, novoServicoDTO);
+    public ResponseEntity<ServicoResponseDTO> updateServicoById(@PathVariable Long id, @RequestBody ServicoUpdateDTO novoServicoDTO) {
+        ServicoResponseDTO dto = servicoService.updateServicoById(id, novoServicoDTO);
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/nome/")
-    public Servico updateServicoByNome(@RequestParam String nome, @RequestBody ServicoUpdateDTO novoServicoDTO) throws Exception {
-        return servicoService.updateServicoByNome(nome, novoServicoDTO);
+    public ResponseEntity<ServicoResponseDTO> updateServicoByNome(@RequestParam String nome, @RequestBody ServicoUpdateDTO novoServicoDTO) throws Exception {
+        ServicoResponseDTO dto = servicoService.updateServicoByNome(nome, novoServicoDTO);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("{id}")
-    public void deleteServicoById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteServicoById(@PathVariable Long id) {
         servicoService.deleteServicoById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/nome/")
-    public void deleteServicoByNome(@RequestParam String nome) {
+    public ResponseEntity<Void> deleteServicoByNome(@RequestParam String nome) {
         servicoService.deleteServicoByNome(nome);
+        return ResponseEntity.noContent().build();
     }
 
 }
