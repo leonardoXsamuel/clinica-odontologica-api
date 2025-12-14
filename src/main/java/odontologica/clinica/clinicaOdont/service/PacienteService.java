@@ -7,6 +7,7 @@ import odontologica.clinica.clinicaOdont.dto.paciente.PacienteUpdateDTO;
 import odontologica.clinica.clinicaOdont.exceptions.ResourceNotFoundException;
 import odontologica.clinica.clinicaOdont.model.Paciente;
 import odontologica.clinica.clinicaOdont.repository.PacienteRepository;
+import org.aspectj.apache.bcel.generic.RET;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,46 +81,43 @@ public class PacienteService {
                 .toList();
     }
 
-    @Transactional
-    public Paciente updatePacienteById(Long id, PacienteUpdateDTO dto) {
-        Paciente antigoPaciente = pacienteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("O ID requerido não foi localizado"));
-
+    private void atualizarAtributos(Paciente antigoPaciente, PacienteUpdateDTO dto){
         antigoPaciente.setNome(dto.nome());
         antigoPaciente.setTelefone(dto.telefone());
         antigoPaciente.setEmail(dto.email());
         antigoPaciente.setDataNascimento(dto.dataNascimento());
         antigoPaciente.setCpf(dto.cpf());
-
-        return pacienteRepository.save(antigoPaciente);
     }
 
     @Transactional
-    public Paciente updatePacienteByNome(String nome, PacienteUpdateDTO dto) {
+    public PacienteResponseDTO updatePacienteById(Long id, PacienteUpdateDTO dto) {
+        Paciente antigoPaciente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("O ID requerido não foi localizado"));
+        atualizarAtributos(antigoPaciente, dto);
+
+        Paciente paciente = pacienteRepository.save(antigoPaciente);
+        return new PacienteResponseDTO(paciente);
+    }
+
+    @Transactional
+    public PacienteResponseDTO updatePacienteByNome(String nome, PacienteUpdateDTO dto) {
         Paciente antigoPaciente = pacienteRepository.findByNomeContainingIgnoreCase(nome)
                 .orElseThrow(() -> new ResourceNotFoundException("O NOME requerido não foi localizado"));
 
-        antigoPaciente.setNome(dto.nome());
-        antigoPaciente.setTelefone(dto.telefone());
-        antigoPaciente.setEmail(dto.email());
-        antigoPaciente.setDataNascimento(dto.dataNascimento());
-        antigoPaciente.setCpf(dto.cpf());
+        atualizarAtributos(antigoPaciente, dto);
 
-        return pacienteRepository.save(antigoPaciente);
+        Paciente paciente = pacienteRepository.save(antigoPaciente);
+        return new PacienteResponseDTO(paciente);
     }
 
-
-    public Paciente updatePacienteByCPF(String cpf, PacienteUpdateDTO dto) {
+    public PacienteResponseDTO updatePacienteByCPF(String cpf, PacienteUpdateDTO dto) {
         Paciente antigoPaciente = pacienteRepository.findByCpf(cpf)
                 .orElseThrow(() -> new ResourceNotFoundException("O CPF requerido não foi localizado"));
 
-        antigoPaciente.setNome(dto.nome());
-        antigoPaciente.setTelefone(dto.telefone());
-        antigoPaciente.setEmail(dto.email());
-        antigoPaciente.setDataNascimento(dto.dataNascimento());
-        antigoPaciente.setCpf(dto.cpf());
+        atualizarAtributos(antigoPaciente, dto);
 
-        return pacienteRepository.save(antigoPaciente);
+        Paciente paciente = pacienteRepository.save(antigoPaciente);
+        return new PacienteResponseDTO(paciente);
     }
 
     @Transactional
