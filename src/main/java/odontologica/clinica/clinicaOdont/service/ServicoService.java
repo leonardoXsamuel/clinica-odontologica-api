@@ -73,7 +73,7 @@ public class ServicoService {
     }
 
     @Transactional
-    public Servico updateServicoById(Long id, ServicoUpdateDTO dto) {
+    public ServicoResponseDTO updateServicoById(Long id, ServicoUpdateDTO dto) {
 
         Servico servicoAntigo = servicoRepository.
                 findById(id)
@@ -81,12 +81,12 @@ public class ServicoService {
 
         atualizarAtributos(servicoAntigo, dto);
 
-        return servicoRepository.save(servicoAntigo);
-
+        Servico servicoAtualizado = servicoRepository.save(servicoAntigo);
+        return new ServicoResponseDTO(servicoAtualizado);
     }
 
     @Transactional
-    public Servico updateServicoByNome(String nome, ServicoUpdateDTO dto) {
+    public ServicoResponseDTO updateServicoByNome(String nome, ServicoUpdateDTO dto) {
 
         Servico servicoAntigo = servicoRepository
                 .findByNome(nome)
@@ -94,7 +94,8 @@ public class ServicoService {
 
         atualizarAtributos(servicoAntigo, dto);
 
-        return servicoRepository.save(servicoAntigo);
+        Servico servicoAtualizado = servicoRepository.save(servicoAntigo);
+        return new ServicoResponseDTO(servicoAtualizado);
     }
 
     private void atualizarAtributos(Servico servicoAntigo, ServicoUpdateDTO dto){
