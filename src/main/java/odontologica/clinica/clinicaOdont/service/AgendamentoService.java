@@ -67,7 +67,7 @@ public class AgendamentoService {
                 .toList();
     }
 
-    public Agendamento createAgendamento(AgendamentoCreateDTO dto) {
+    public AgendamentoResponseDTO createAgendamento(AgendamentoCreateDTO dto) {
         Optional<Agendamento> existente = agendamentoRepository
                 .findByDentistaIdAndDataHora(dto.dentista().getId(), dto.dataHora());
 
@@ -76,9 +76,9 @@ public class AgendamentoService {
         }
 
         Agendamento agendamento = new Agendamento(dto);
+        agendamentoRepository.save(agendamento);
 
-        return agendamentoRepository.save(agendamento);
-
+        return new AgendamentoResponseDTO(agendamento);
     }
 
     public List<AgendamentoResponseDTO> createAgendamentos(List<AgendamentoCreateDTO> dtoList) {
@@ -121,11 +121,13 @@ public class AgendamentoService {
     }
 
     @Transactional
-    public Agendamento updateAgendamentoById(Long id, AgendamentoUpdateDTO novoAgendamento) {
+    public AgendamentoResponseDTO updateAgendamentoById(Long id, AgendamentoUpdateDTO novoAgendamento) {
         Agendamento antigoAgendamento = buscarAgendamento(id);
         validarConflito(id, novoAgendamento);
         atualizarCampos(novoAgendamento, antigoAgendamento);
-        return agendamentoRepository.save(antigoAgendamento);
+        Agendamento agendamento = agendamentoRepository.save(antigoAgendamento);
+
+        return new AgendamentoResponseDTO(agendamento);
     }
 
     @Transactional
