@@ -107,24 +107,38 @@ public class DentistaService {
     }
 
     @Transactional
-    public Dentista updateDentistaById(Long id, DentistaUpdateDTO novoDentista) {
+    public DentistaResponseDTO updateDentistaById(Long id, DentistaUpdateDTO novoDentista) {
 
         Dentista antigoDentista = dentistaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ID não localizado. ID solicitado: " + id));
         atualizarDentista(antigoDentista, novoDentista);
 
         dentistaValidator.validateUniqueFieldsForUpdate(antigoDentista, antigoDentista.getId());
-        return dentistaRepository.save(antigoDentista);
+        Dentista dentista = dentistaRepository.save(antigoDentista);
+        return new DentistaResponseDTO(dentista);
     }
 
     @Transactional
-    public Dentista updateDentistaByCro(String cro, DentistaUpdateDTO novoDentista) {
+    public DentistaResponseDTO updateDentistaByNome(String nome, DentistaUpdateDTO novoDentista) {
+
+        Dentista antigoDentista = dentistaRepository.findByNome(nome)
+                .orElseThrow(() -> new ResourceNotFoundException("Dentista não localizado. Nome solicitado: " + nome));
+        atualizarDentista(antigoDentista, novoDentista);
+
+        dentistaValidator.validateUniqueFieldsForUpdate(antigoDentista, antigoDentista.getId());
+        Dentista dentista = dentistaRepository.save(antigoDentista);
+        return new DentistaResponseDTO(dentista);
+    }
+
+    @Transactional
+    public DentistaResponseDTO updateDentistaByCro(String cro, DentistaUpdateDTO novoDentista) {
 
         Dentista antigoDentista = dentistaRepository.findByCro(cro)
                 .orElseThrow(() -> new ResourceNotFoundException("CRO não localizado. CRO solicitado: " + cro));
         atualizarDentista(antigoDentista, novoDentista);
 
-        return dentistaRepository.save(antigoDentista);
+        Dentista dentista = dentistaRepository.save(antigoDentista);
+        return new DentistaResponseDTO(dentista);
     }
 
     @Transactional
