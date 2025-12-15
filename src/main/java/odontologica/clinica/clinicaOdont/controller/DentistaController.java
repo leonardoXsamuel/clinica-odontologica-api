@@ -1,11 +1,15 @@
 package odontologica.clinica.clinicaOdont.controller;
 
-import odontologica.clinica.clinicaOdont.model.Dentista;
+import odontologica.clinica.clinicaOdont.dto.dentista.DentistaCreateDTO;
+import odontologica.clinica.clinicaOdont.dto.dentista.DentistaResponseDTO;
+import odontologica.clinica.clinicaOdont.dto.dentista.DentistaUpdateDTO;
+import odontologica.clinica.clinicaOdont.model.enums.Especialidade;
 import odontologica.clinica.clinicaOdont.service.DentistaService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("/dentistas")
 @RestController
@@ -22,67 +26,71 @@ public class DentistaController {
         return "ROTA TESTE FUNCIONANDO PERFEITAMENTE";
     }
 
-    // GET
     @GetMapping("/id/{id}")
-    public Optional<Dentista> getDentistaById(@PathVariable Long id) throws Exception {
-        return dentistaService.getDentistaById(id);
+    public ResponseEntity<DentistaResponseDTO> getDentistaById(@PathVariable Long id) {
+        return ResponseEntity.ok(dentistaService.getDentistaById(id));
     }
 
     @GetMapping("/especialidade")
-    public Optional<Dentista> getDentistaByEspecialidade(@RequestParam Dentista.Especialidade especialidade) throws Exception {
-        return dentistaService.getDentistaByEspecialidade(especialidade);
+    public ResponseEntity<List<DentistaResponseDTO>> getDentistaByEspecialidade(@RequestParam Especialidade especialidade) {
+        return ResponseEntity.ok(dentistaService.getDentistaByEspecialidade(especialidade));
+    }
+
+    @GetMapping("/nome")
+    public ResponseEntity<List<DentistaResponseDTO>> getDentistaByNome(@RequestParam String nome) {
+        return ResponseEntity.ok(dentistaService.getDentistaByNome(nome));
     }
 
     @GetMapping("/cro/{cro}")
-    public Optional<Dentista> getDentistaByCro(@PathVariable String cro) throws Exception {
-        return dentistaService.getDentistaByCro(cro);
+    public ResponseEntity<DentistaResponseDTO> getDentistaByCro(@PathVariable String cro)  {
+        return ResponseEntity.ok(dentistaService.getDentistaByCro(cro));
     }
 
     @GetMapping("/lote")
-    public List<Dentista> getDentistas() {
-        return dentistaService.getDentistas();
+    public ResponseEntity<List<DentistaResponseDTO>> getDentistas() {
+        return ResponseEntity.ok(dentistaService.getDentistas());
     }
 
-    // POST
     @PostMapping
-    public Dentista createDentista(@RequestBody Dentista dentista) {
-        return dentistaService.createDentista(dentista);
+    public ResponseEntity<DentistaResponseDTO> createDentista(@RequestBody DentistaCreateDTO dentistaCreateDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(dentistaService.createDentista(dentistaCreateDTO));
     }
 
     @PostMapping("/lote")
-    public List<Dentista> createDentistas(@RequestBody List<Dentista> dentistaList) {
-        return dentistaService.createDentistas(dentistaList);
+    public ResponseEntity<List<DentistaResponseDTO>> createDentistas(@RequestBody List<DentistaCreateDTO> dentistaList) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(dentistaService.createDentistas(dentistaList));
     }
 
-    // PUT
     @PutMapping("/{id}")
-    public Dentista updateDentistaById(@PathVariable Long id, @RequestBody Dentista novoDentista) throws Exception {
-        return dentistaService.updateDentistaById(id, novoDentista);
+    public ResponseEntity<DentistaResponseDTO> updateDentistaById(@PathVariable Long id, @RequestBody DentistaUpdateDTO novoDentista)  {
+        return ResponseEntity.ok(dentistaService.updateDentistaById(id, novoDentista));
     }
 
     @PutMapping("/cro/{cro}")
-    public Dentista updateDentistaByCro(@PathVariable String cro, @RequestBody Dentista novoDentista) throws Exception {
-        return dentistaService.updateDentistaByCro(cro, novoDentista);
+    public ResponseEntity<DentistaResponseDTO> updateDentistaByCro(@PathVariable String cro, @RequestBody DentistaUpdateDTO novoDentista)  {
+        return ResponseEntity.ok(dentistaService.updateDentistaByCro(cro, novoDentista));
     }
 
     @PutMapping("/nome/{nome}")
-    public Dentista updateDentistaByNome(@PathVariable String nome, @RequestBody Dentista novoDentista) throws Exception {
-        return dentistaService.updateDentistaByNome(nome, novoDentista);
+    public ResponseEntity<DentistaResponseDTO> updateDentistaByNome(@PathVariable String nome, @RequestBody DentistaUpdateDTO novoDentista)  {
+        return ResponseEntity.ok(dentistaService.updateDentistaByNome(nome, novoDentista));
     }
 
-    // DELETE
     @DeleteMapping("{id}")
-    public void deleteDentistaById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<Void> deleteDentistaById(@PathVariable Long id)  {
         dentistaService.deleteDentistaById(id);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/nome/{nome}")
-    public void deleteDentistaByNome(@PathVariable String nome) throws Exception {
+    public ResponseEntity<Void> deleteDentistaByNome(@PathVariable String nome)  {
         dentistaService.deleteDentistaByNome(nome);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/especialidade/{especialidade}")
-    public void deleteDentistaByEspecialidade(@PathVariable Dentista.Especialidade especialidade) throws Exception {
+    public ResponseEntity<Void> deleteDentistaByEspecialidade(@PathVariable Especialidade especialidade)  {
         dentistaService.deleteDentistaByEspecialidade(especialidade);
+        return ResponseEntity.ok().build();
     }
 }
