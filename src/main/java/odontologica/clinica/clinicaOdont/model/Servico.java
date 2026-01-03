@@ -8,8 +8,6 @@ import lombok.Setter;
 import odontologica.clinica.clinicaOdont.dto.servico.ServicoCreateDTO;
 import org.hibernate.validator.constraints.NotBlank;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "tb_servicos")
 public class Servico {

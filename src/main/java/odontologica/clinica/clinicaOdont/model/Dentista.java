@@ -8,8 +8,6 @@ import lombok.Setter;
 import odontologica.clinica.clinicaOdont.dto.dentista.DentistaCreateDTO;
 import odontologica.clinica.clinicaOdont.model.enums.Especialidade;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "tb_dentistas")
 public class Dentista {

@@ -10,8 +10,6 @@ import odontologica.clinica.clinicaOdont.dto.paciente.PacienteCreateDTO;
 import org.hibernate.validator.constraints.NotBlank;
 import java.time.LocalDate;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "tb_pacientes")
 public class Paciente {

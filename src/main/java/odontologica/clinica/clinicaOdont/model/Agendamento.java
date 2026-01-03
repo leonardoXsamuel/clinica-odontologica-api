@@ -5,13 +5,10 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import odontologica.clinica.clinicaOdont.dto.agendamento.AgendamentoCreateDTO;
 import odontologica.clinica.clinicaOdont.model.enums.StatusAgendamento;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "tb_agendamentos")
 public class Agendamento {
