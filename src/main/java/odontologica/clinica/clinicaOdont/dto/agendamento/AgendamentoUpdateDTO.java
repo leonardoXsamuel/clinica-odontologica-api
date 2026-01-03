@@ -2,15 +2,11 @@ package odontologica.clinica.clinicaOdont.dto.agendamento;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
-import odontologica.clinica.clinicaOdont.model.Dentista;
-import odontologica.clinica.clinicaOdont.model.Paciente;
-import odontologica.clinica.clinicaOdont.model.Servico;
 import odontologica.clinica.clinicaOdont.model.enums.StatusAgendamento;
 
 import java.time.LocalDateTime;
 
 public record AgendamentoUpdateDTO(
-
         @Future
         @NotNull
         LocalDateTime dataHora,
@@ -19,10 +15,12 @@ public record AgendamentoUpdateDTO(
         StatusAgendamento statusAgendamento,
 
         @NotNull
-        Dentista dentista,
+        Long dentistaId,
 
         @NotNull
-        Paciente paciente,
+        Long pacienteId,
 
         @NotNull
-        Servico servico){ }
+        Long servicoId
+) {
+}
