@@ -8,6 +8,12 @@ import odontologica.clinica.clinicaOdont.exceptions.ResourceNotFoundException;
 import odontologica.clinica.clinicaOdont.model.Agendamento;
 import odontologica.clinica.clinicaOdont.model.enums.StatusAgendamento;
 import odontologica.clinica.clinicaOdont.repository.AgendamentoRepository;
+import odontologica.clinica.clinicaOdont.repository.DentistaRepository;
+import odontologica.clinica.clinicaOdont.repository.PacienteRepository;
+import odontologica.clinica.clinicaOdont.repository.ServicoRepository;
+import odontologica.clinica.clinicaOdont.service.validator.AtualizaCampos;
+import odontologica.clinica.clinicaOdont.service.validator.BuscaEntidadesPorId;
+import odontologica.clinica.clinicaOdont.service.validator.ValidaConflito;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,16 +22,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static odontologica.clinica.clinicaOdont.service.validator.AtualizaCampos.atualizarCampos;
-import static odontologica.clinica.clinicaOdont.service.validator.ValidaConflito.validarConflito;
-
 @Service
 public class AgendamentoService {
 
     private final AgendamentoRepository agendamentoRepository;
+    private final DentistaRepository dentistaRepository;
+    private final PacienteRepository pacienteRepository;
+    private final ServicoRepository servicoRepository;
 
-    public AgendamentoService(AgendamentoRepository agendamentoRepository) {
+    private final ValidaConflito validaConflito;
+    private final AtualizaCampos atualizaCampos;
+
+    public AgendamentoService(AgendamentoRepository agendamentoRepository, DentistaRepository dentistaRepository, PacienteRepository pacienteRepository, ServicoRepository servicoRepository, ValidaConflito validaConflito, AtualizaCampos atualizaCampos) {
         this.agendamentoRepository = agendamentoRepository;
+        this.dentistaRepository = dentistaRepository;
+        this.pacienteRepository = pacienteRepository;
+        this.servicoRepository = servicoRepository;
+        this.validaConflito = validaConflito;
+        this.atualizaCampos = atualizaCampos;
     }
 
     public List<AgendamentoResponseDTO> getAgendamentos() {
@@ -70,14 +84,24 @@ public class AgendamentoService {
     }
 
     public AgendamentoResponseDTO createAgendamento(AgendamentoCreateDTO dto) {
+
+        // busca entidades por id
+        BuscaEntidadesPorId busca = new BuscaEntidadesPorId(dentistaRepository, pacienteRepository, servicoRepository);
+        BuscaEntidadesPorId.Entidades entidades = busca.buscar(dto.dentistaId(), dto.pacienteId(), dto.servicoId());
+
         Optional<Agendamento> existente = agendamentoRepository
-                .findByDentistaIdAndDataHora(dto.dentista().getId(), dto.dataHora());
+                .findByDentistaIdAndDataHora(dto.dentistaId(), dto.dataHora());
 
         if (existente.isPresent()) {
             throw new ConflictException("O dentista já possui um agendamento nesse horário.");
         }
 
-        Agendamento agendamento = new Agendamento(dto);
+        Agendamento agendamento = new Agendamento(
+                dto.dataHora(),
+                dto.statusAgendamento(),
+                entidades.dentista(),
+                entidades.paciente(),
+                entidades.servico());
         agendamentoRepository.save(agendamento);
 
         return new AgendamentoResponseDTO(agendamento);
@@ -85,8 +109,24 @@ public class AgendamentoService {
 
     public List<AgendamentoResponseDTO> createAgendamentos(List<AgendamentoCreateDTO> dtoList) {
 
+        BuscaEntidadesPorId busca = new BuscaEntidadesPorId(dentistaRepository, pacienteRepository, servicoRepository);
+
         List<Agendamento> agendamentoList = dtoList.stream()
-                .map(Agendamento::new)
+                .map(dto -> {
+                    BuscaEntidadesPorId.Entidades entidades = busca.buscar(
+                            dto.dentistaId(),
+                            dto.pacienteId(),
+                            dto.servicoId()
+                    );
+
+                    return new Agendamento(
+                            dto.dataHora(),
+                            dto.statusAgendamento(),
+                            entidades.dentista(),
+                            entidades.paciente(),
+                            entidades.servico()
+                    );
+                })
                 .toList();
 
         List<Agendamento> agendamentos = agendamentoRepository.saveAll(agendamentoList);
@@ -94,7 +134,6 @@ public class AgendamentoService {
         return agendamentos.stream()
                 .map(AgendamentoResponseDTO::new)
                 .toList();
-
     }
 
     private Agendamento buscarAgendamento(Long id) {
@@ -103,12 +142,11 @@ public class AgendamentoService {
     }
 
 
-
     @Transactional
     public AgendamentoResponseDTO updateAgendamentoById(Long id, AgendamentoUpdateDTO novoAgendamento) {
         Agendamento antigoAgendamento = buscarAgendamento(id);
-        validarConflito(id, novoAgendamento);
-        atualizarCampos(novoAgendamento, antigoAgendamento);
+        validaConflito.validarConflito(id, novoAgendamento);
+        atualizaCampos.atualizarCampos(novoAgendamento, antigoAgendamento);
         Agendamento agendamento = agendamentoRepository.save(antigoAgendamento);
 
         return new AgendamentoResponseDTO(agendamento);
