@@ -8,7 +8,6 @@ import odontologica.clinica.clinicaOdont.exceptions.ResourceNotFoundException;
 import odontologica.clinica.clinicaOdont.model.Agendamento;
 import odontologica.clinica.clinicaOdont.model.enums.StatusAgendamento;
 import odontologica.clinica.clinicaOdont.repository.AgendamentoRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +15,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static odontologica.clinica.clinicaOdont.service.validator.AtualizaCampos.atualizarCampos;
+import static odontologica.clinica.clinicaOdont.service.validator.ValidaConflito.validarConflito;
 
 @Service
 public class AgendamentoService {
@@ -100,25 +102,7 @@ public class AgendamentoService {
                 .orElseThrow(() -> new ResourceNotFoundException("o id requisitado não foi localizado"));
     }
 
-    private void validarConflito(Long id, @NotNull AgendamentoUpdateDTO novoAgendamento) {
-        Optional<Agendamento> conflito = agendamentoRepository
-                .findByDentistaIdAndDataHora(novoAgendamento.dentista().getId(), novoAgendamento.dataHora());
 
-        if (conflito.isPresent() && !conflito.get().getId().equals(id)) {
-            throw new ConflictException("O dentista já possui um agendamento nesse horário.");
-        }
-
-    }
-
-    private void atualizarCampos(@NotNull AgendamentoUpdateDTO novoAgendamento, Agendamento antigoAgendamento) {
-        if (novoAgendamento.dataHora() != null) {
-            antigoAgendamento.setDataHora(novoAgendamento.dataHora());
-        }
-
-        if (novoAgendamento.statusAgendamento() != null) {
-            antigoAgendamento.setStatus(novoAgendamento.statusAgendamento());
-        }
-    }
 
     @Transactional
     public AgendamentoResponseDTO updateAgendamentoById(Long id, AgendamentoUpdateDTO novoAgendamento) {
