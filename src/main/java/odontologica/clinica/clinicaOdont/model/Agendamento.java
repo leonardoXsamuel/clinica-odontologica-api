@@ -16,12 +16,20 @@ import java.time.LocalDateTime;
 @Table(name = "tb_agendamentos")
 public class Agendamento {
 
-    public Agendamento(AgendamentoCreateDTO dto) {
-        this.status = dto.statusAgendamento();
-        this.dataHora = dto.dataHora();
-        this.dentista = dto.dentista();
-        this.paciente = dto.paciente();
-        this.servico = dto.servico();
+    public Agendamento() { }
+
+    public Agendamento(
+            LocalDateTime dataHora,
+            StatusAgendamento status,
+            Dentista dentista,
+            Paciente paciente,
+            Servico servico
+    ) {
+        this.dataHora = dataHora;
+        this.status = status;
+        this.dentista = dentista;
+        this.paciente = paciente;
+        this.servico = servico;
     }
 
     @Id
@@ -53,7 +61,7 @@ public class Agendamento {
     @JoinColumn(name = "servico_id", nullable = false)
     private Servico servico;
 
-/*
+
     // GETTERS E SETTERS
     public Dentista getDentista() {
         return dentista;
@@ -104,5 +112,4 @@ public class Agendamento {
 
     }
 
- */
 }
