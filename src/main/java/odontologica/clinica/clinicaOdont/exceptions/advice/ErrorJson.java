@@ -11,18 +11,15 @@ import java.time.format.DateTimeFormatter;
 @Setter
 public class ErrorJson {
 
-    private String mensagem;
-    private String dataHora;
+    private String message;
     private String error;
-    private HttpStatus status;
+    private int status;
     private String path;
 
-    public ErrorJson(String mensagem, String error, HttpStatus status, String path) {
-        this.mensagem = mensagem;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        this.dataHora = LocalDateTime.now().format(formatter);
+    public ErrorJson(String message, String error, int status, String path) {
+        this.message = message;
+        this.error = error;
         this.status = status;
-        this.error = status.getReasonPhrase();
         this.path = path;
     }
 }

@@ -9,7 +9,7 @@ import odontologica.clinica.clinicaOdont.model.Dentista;
 import odontologica.clinica.clinicaOdont.model.enums.Especialidade;
 import odontologica.clinica.clinicaOdont.repository.DentistaRepository;
 import odontologica.clinica.clinicaOdont.service.validator.DentistaValidator;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

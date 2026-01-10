@@ -1,5 +1,6 @@
 package odontologica.clinica.clinicaOdont.dto.agendamento;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import odontologica.clinica.clinicaOdont.model.enums.StatusAgendamento;
@@ -10,6 +11,7 @@ public record AgendamentoCreateDTO(
 
         @Future
         @NotNull
+        @Schema(type = "string", example = "2026-01-10T14:30:00")
         LocalDateTime dataHora,
 
         @NotNull

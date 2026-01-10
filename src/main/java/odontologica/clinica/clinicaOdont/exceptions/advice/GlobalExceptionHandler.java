@@ -11,18 +11,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(AgendamentoAlreadsExistsException.class)
-    public ResponseEntity<ErrorJson> HandlerAgendamentoAlreadsExistsException(AgendamentoAlreadsExistsException exception, HttpServletRequest request) {
+    public ResponseEntity<ErrorJson> HandlerAgendamentoAlreadsExistsException(AgendamentoAlreadsExistsException exception) {
         ErrorJson errorJson = new ErrorJson(
                 exception.getMessage(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
-                HttpStatus.CONFLICT,
-                request.getRequestURI()
+                HttpStatus.CONFLICT.value(),
+                null // request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorJson);
     }
@@ -33,8 +34,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorJson errorJson = new ErrorJson(
                 exception.getMessage(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
-                HttpStatus.CONFLICT,
-                request.getRequestURI()
+                HttpStatus.CONFLICT.value(),
+                null //request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorJson);
     }
@@ -43,9 +44,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorJson> HandlerInvalidCroException(InvalidCroException exception, HttpServletRequest request) {
         ErrorJson errorJson = new ErrorJson(
                 exception.getMessage(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                HttpStatus.NOT_FOUND,
-                request.getRequestURI()
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                HttpStatus.CONFLICT.value(),
+                null //request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorJson);
     }
@@ -54,9 +55,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorJson> HandlerResourceNotFoundException(ResourceNotFoundException exception, HttpServletRequest request) {
         ErrorJson errorJson = new ErrorJson(
                 exception.getMessage(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                HttpStatus.NOT_FOUND,
-                request.getRequestURI()
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                HttpStatus.CONFLICT.value(),
+                null //request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorJson);
     }
@@ -65,9 +66,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorJson> HandlerPacienteAlreadsExistsException(PacienteAlreadsExistsException exception, HttpServletRequest request) {
         ErrorJson errorJson = new ErrorJson(
                 exception.getMessage(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                HttpStatus.BAD_REQUEST,
-                request.getRequestURI()
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                HttpStatus.CONFLICT.value(),
+                null //request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorJson);
     }
@@ -76,9 +77,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorJson> HandlerServicoAlreadsExistsException(ServicoAlreadsExistsException exception, HttpServletRequest request) {
         ErrorJson errorJson = new ErrorJson(
                 exception.getMessage(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                HttpStatus.BAD_REQUEST,
-                request.getRequestURI()
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                HttpStatus.CONFLICT.value(),
+                null // request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorJson);
     }

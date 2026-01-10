@@ -4,7 +4,7 @@ import odontologica.clinica.clinicaOdont.dto.agendamento.AgendamentoUpdateDTO;
 import odontologica.clinica.clinicaOdont.exceptions.ConflictException;
 import odontologica.clinica.clinicaOdont.model.Agendamento;
 import odontologica.clinica.clinicaOdont.repository.AgendamentoRepository;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

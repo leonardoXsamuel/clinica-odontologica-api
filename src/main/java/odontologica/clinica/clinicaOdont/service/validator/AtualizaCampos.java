@@ -2,7 +2,7 @@ package odontologica.clinica.clinicaOdont.service.validator;
 
 import odontologica.clinica.clinicaOdont.dto.agendamento.AgendamentoUpdateDTO;
 import odontologica.clinica.clinicaOdont.model.Agendamento;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
