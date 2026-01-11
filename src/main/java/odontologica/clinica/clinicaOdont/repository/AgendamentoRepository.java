@@ -12,7 +12,7 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
 
     void deleteByStatus(StatusAgendamento statusAgendamento);
 
-    Optional<Agendamento> findByStatus(StatusAgendamento statusAgendamento);
+    List<Agendamento> findByStatus(StatusAgendamento statusAgendamento);
 
     Optional <List<Agendamento>> findByDataHoraBetween(LocalDateTime inicio, LocalDateTime fim);
 
