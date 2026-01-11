@@ -265,15 +265,8 @@ public class AgendamentoController {
             description = "atualiza agendamento por id. pode falhar em caso de id inválido/inexistente ou conflito de horário/dentista")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "20", description = "Agendamento deletado."
+                    responseCode = "204", description = "Agendamento deletado."
             ),
-//            @ApiResponse(
-//                    responseCode = "400",
-//                    description = "id inválido na requisição.",
-//                    content = @Content(
-//                            mediaType = "application/json",
-//                            schema = @Schema(implementation = ErrorJson.class)
-//                    )),
             @ApiResponse(
                     responseCode = "404",
                     description = "Dentista(s)/paciente(s) não localizado(s).",
@@ -301,13 +294,6 @@ public class AgendamentoController {
             @ApiResponse(
                     responseCode = "204", description = "Agendamento deletado."
             ),
-//            @ApiResponse(
-//                    responseCode = "400",
-//                    description = "id inválido na requisição.",
-//                    content = @Content(
-//                            mediaType = "application/json",
-//                            schema = @Schema(implementation = ErrorJson.class)
-//                    )),
             @ApiResponse(
                     responseCode = "404",
                     description = "Dentista(s)/paciente(s) não localizado(s).",
