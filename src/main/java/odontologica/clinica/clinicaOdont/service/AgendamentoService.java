@@ -62,11 +62,16 @@ public class AgendamentoService {
         return new AgendamentoResponseDTO(agendamento);
     }
 
-    public AgendamentoResponseDTO getAgendamentosByStatus(StatusAgendamento status) {
-        Agendamento agendamento = agendamentoRepository.findByStatus(status)
-                .orElseThrow(ResourceNotFoundException::new);
+    public List<AgendamentoResponseDTO> getAgendamentosByStatus(StatusAgendamento status) {
+        List<Agendamento> agendamentos = agendamentoRepository.findByStatus(status);
 
-        return new AgendamentoResponseDTO(agendamento);
+        if (agendamentos.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhum agendamento encontrado");
+        }
+
+        return agendamentos.stream()
+                .map(AgendamentoResponseDTO::new)
+                .toList();
     }
 
     public List<AgendamentoResponseDTO> getAgendamentosByDate(LocalDate data) {
@@ -164,8 +169,11 @@ public class AgendamentoService {
     @Transactional
     public void deleteAgendamentoByStatus(StatusAgendamento statusAgendamento) {
 
-        agendamentoRepository.findByStatus(statusAgendamento)
-                .orElseThrow(() -> new ResourceNotFoundException("o STATUS " + statusAgendamento + " não foi localizado"));
+        List<Agendamento> agendamentosToDelete = agendamentoRepository.findByStatus(statusAgendamento);
+
+        if (agendamentosToDelete.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhum agendamento encontrado");
+        }
 
         agendamentoRepository.deleteByStatus(statusAgendamento);
     }
