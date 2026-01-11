@@ -2,10 +2,6 @@ package odontologica.clinica.clinicaOdont.exceptions.advice;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
