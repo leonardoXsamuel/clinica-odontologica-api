@@ -56,7 +56,7 @@ public class AgendamentoController {
                     description = "Agendamento localizado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorJson.class))
+                            schema = @Schema(implementation = AgendamentoResponseDTO.class))
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -265,7 +265,7 @@ public class AgendamentoController {
             description = "atualiza agendamento por id. pode falhar em caso de id inválido/inexistente ou conflito de horário/dentista")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200", description = "Agendamento deletado."
+                    responseCode = "20", description = "Agendamento deletado."
             ),
 //            @ApiResponse(
 //                    responseCode = "400",
@@ -292,14 +292,14 @@ public class AgendamentoController {
             @PathVariable Long id
     ) {
         agendamentoService.deleteAgendamentoById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "deleta agendamento por status",
             description = "atualiza agendamento por status. pode falhar em caso de status inválido/inexistente ou conflito de horário/dentista")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200", description = "Agendamento deletado."
+                    responseCode = "204", description = "Agendamento deletado."
             ),
 //            @ApiResponse(
 //                    responseCode = "400",
@@ -326,6 +326,6 @@ public class AgendamentoController {
             @PathVariable
             @Schema(implementation = StatusAgendamento.class) StatusAgendamento status) {
         agendamentoService.deleteAgendamentoByStatus(status);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
