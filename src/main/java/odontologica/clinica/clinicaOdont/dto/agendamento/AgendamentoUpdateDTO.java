@@ -14,15 +14,19 @@ public record AgendamentoUpdateDTO(
         LocalDateTime dataHora,
 
         @NotNull
+        @Schema(type = "string", example = "2026-01-10T14:30:00")
         StatusAgendamento statusAgendamento,
 
         @NotNull
+        @Schema (description = "id do dentista relacionado ao agendamento")
         Long dentistaId,
 
         @NotNull
+        @Schema (description = "id do paciente relacionado ao agendamento")
         Long pacienteId,
 
         @NotNull
+        @Schema (description = "id do serviço prestado relacionado ao agendamento")
         Long servicoId
 ) {
 }
