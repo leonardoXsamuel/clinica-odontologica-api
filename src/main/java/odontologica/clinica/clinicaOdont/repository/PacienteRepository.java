@@ -13,7 +13,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 
     Optional<Paciente> findByNomeContainingIgnoreCase(String nome);
 
-    Optional<Paciente> findByNome(String nome);
+    Optional<List<Paciente>> findByNome(String nome);
 
     void deleteByNome(String nome);
 }
