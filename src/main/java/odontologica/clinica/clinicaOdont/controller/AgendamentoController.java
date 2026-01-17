@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Tag(name = "Agendamentos", description = "gerenciador de endpoints de AGENDAMENTO.")
+@Tag(name = "Agendamentos", description = "gerenciador de endpoints de AGENDAMENTOS.")
 @ApiResponses({
         @ApiResponse(
                 responseCode = "500",
@@ -40,11 +40,6 @@ public class AgendamentoController {
 
     public AgendamentoController(AgendamentoService agendamentoService) {
         this.agendamentoService = agendamentoService;
-    }
-
-    @GetMapping("/teste")
-    public String testeDeRota() {
-        return "ROTA TESTE FUNCIONANDO PERFEITAMENTE";
     }
 
     @GetMapping("/{id}")
@@ -152,16 +147,7 @@ public class AgendamentoController {
             )
     })
     @PostMapping
-    public ResponseEntity<AgendamentoResponseDTO> createAgendamento(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    required = true,
-                    description = "Dados para criação do agendamento",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = AgendamentoCreateDTO.class)
-                    )
-            )
-            @RequestBody AgendamentoCreateDTO agendamento) {
+    public ResponseEntity<AgendamentoResponseDTO> createAgendamento(@RequestBody AgendamentoCreateDTO agendamento) {
         return ResponseEntity.status(HttpStatus.CREATED).body(agendamentoService.createAgendamento(agendamento));
     }
 
@@ -196,17 +182,7 @@ public class AgendamentoController {
                     )
             )})
     @PostMapping("/lote")
-    public ResponseEntity<List<AgendamentoResponseDTO>> createAgendamentos(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    required = true,
-                    description = "Dados para criação dos agendamentos",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = AgendamentoCreateDTO.class))
-                    )
-            )
-            @RequestBody List<AgendamentoCreateDTO> listAgendamentos) {
-
+    public ResponseEntity<List<AgendamentoResponseDTO>> createAgendamentos(@RequestBody List<AgendamentoCreateDTO> listAgendamentos) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(agendamentoService.createAgendamentos(listAgendamentos));
@@ -250,13 +226,6 @@ public class AgendamentoController {
                     required = true
             ) @PathVariable Long id,
 
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    required = true,
-                    description = "Dados para atualização do agendamento",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = AgendamentoUpdateDTO.class))
-            )
             @RequestBody AgendamentoUpdateDTO novoAgendamento) {
         return ResponseEntity.ok(agendamentoService.updateAgendamentoById(id, novoAgendamento));
     }
