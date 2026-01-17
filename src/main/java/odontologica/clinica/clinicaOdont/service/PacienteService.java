@@ -42,11 +42,13 @@ public class PacienteService {
         return new PacienteResponseDTO(paciente);
     }
 
-    public PacienteResponseDTO getPacienteByNome(String nome) {
-        Paciente paciente = pacienteRepository.findByNome(nome)
+    public List<PacienteResponseDTO> getPacienteByNome(String nome) {
+        List<Paciente> pacientes = pacienteRepository.findByNome(nome)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente não localizado."));
 
-        return new PacienteResponseDTO(paciente);
+        return pacientes.stream()
+                .map(PacienteResponseDTO::new)
+                .toList();
     }
 
     public PacienteResponseDTO getPacienteByCPF(String cpf) {
